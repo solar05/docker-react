@@ -7,4 +7,18 @@ before_install:
   - docker build -t solar7455/docker-react -f Dockerfile.dev .
 
 script:
-  - docker run -e CI=true solar7455/docker-react npm run test 
+  - docker run -e CI=true solar7455/docker-react npm run test
+
+deploy:
+  edge: true
+  provider: elasticbeanstalk
+  region: "eu-north-1"
+  app: "solar7455-docker"
+  env: "Solar7455Docker-env"
+  bucket_name: "elasticbeanstalk-eu-north-1-112787779696"
+  bucket_path: "docker"
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
